@@ -1,0 +1,222 @@
+外置对象
+1. BOM
+
+浏览器对象模型,提供操作浏览器相关的属性和方法,学习BOM主要围绕JS顶层对象Window,学习Window对象的属性和方法.
+Window对象跟随浏览器运行自动产生,每个窗口都对应有自己的window对象,window对象可以省略,直接使用相关属性和方法
+window对象
+
+跟随网页运行自动创建,表示当前窗口对象,所有的全局变量和函数,都是window对象的属性和方法,对话框都是window对象的方法:
+alert("提示文本") 警告框
+prompt("提示文本"[,value]) 带有输入框的弹窗,value表示初始化输入框的值,返回字符串结果
+confirm("提示文本") 确认框
+返回true/false,只有点击"确定"返回true,其他情况(点击取消,强制关闭)都返回false
+方法:
+1. 所有全局函数都是window对象的方法
+2. 所有的对话框都是window对象自带的方法
+3. 定时器方法
+
+1.周期性定时器(间歇调用):
+
+每隔一段时间,执行一次代码
+语法:
+setInterval(); //开启周期定时器
+参数:
+function: 要执行的代码
+time:表示时间间隔,以毫秒为单位
+返回值:
+定时器的id(整数值)
+清除周期定时器:
+clearInterval(timerID);停止定时器,参数为定时器ID值
+
+function start(){
+	//jianxie diaoyong 
+	timerID =setInterval(function(){
+		var date=new Date();
+		console.log(date);
+	},1000);
+}
+function stop(){
+	clearInterval(timerID);
+	console.log(timerID);
+}
+</script>
+<button onclick="start()">kaishi</button>
+<button onclick="stop()">jieshu</button>
+
+2.一次性定时器(超时调用):
+等待一段时间之后,执行一次代码
+语法:
+setTimeout(function,delay);//开启一次性定时器
+参数:
+function : 需要执行的代码
+delay : 延迟执行的时长,默认毫秒为单位
+返回:
+定时器ID
+关闭超时调用:
+clearTimeout(timerID);
+2.属性
+
+window对象中大部分属性,又都是兑现各类型,包含自身的属性和方法
+如:
+window.document;
+window.document.write();
+
+    screen对象:
+    包含于屏幕相关的信息
+    属性:
+        width/height:屏幕宽高
+        availWidth/availHeight:屏幕实际可用的宽高(去除任务栏/dock栏等的宽高)
+
+console.log(screen);
+console.log(screen.width,screen.height);
+console.log(screen.availHeight,screen.availWidth);
+
+    history对象
+    保存当前窗口访问过的url
+    属性:
+    length : 当前窗口访问过的url数量,至少为1
+    方法:
+    back() : 回退上一条url(浏览器后退按钮)
+    forward() : 访问下一条url(前进按钮)
+    go(num) : 跳转至指定的url,通过参数控制参数为整数值,可正可负,正值代表前进,负值代表后退
+
+    location对象
+    保存地址栏信息(url)
+    属性: href : 保存当前窗口的url,如果给href赋值,相当于跳转页面
+    方法: reload() : 从新载入页面(刷新) ,参数选填 true(忽略缓存,重新从服务器加载)/false(默认值,从缓存中加载)
+
+4.navigator 对象
+保存浏览器相关的信息(版本,内核,代理 )
+2. DOM
+
+DOM 文档对象模型,提供操作文档对象的属性和方法
+DOM 的核心对象 document(文档对象)
+document是window的属性
+如:
+document.write();
+window.document.write();
+获取节点
+涉及到获取元素节点,必须烤炉代码的解析顺序.
+必须等待文档元素加载之后,才能获取节点对象,获取操作
+1. 介绍 :
+
+文档对象模型,提供一系列操作页面的属性和方法.该模型中顶层对象是document对象.其属性和方法由W3C国际组织进行规范和推广
+2. 节点和节点树
+
+网页在加载过程中,会自动生成节点树(DOM树),节点对象封装网页中所有的内容(标签,文本,标签属性,注释..)节点树中保存所有的节点对象,表示各节点之间的层级关系
+
+    节点分类
+        元素节点 -> 文档中的标签
+        文本节点 -> 标签中的文本内容
+        属性节点 -> 标签属性
+        -----------
+        注释节点 -> 注释节点
+        文档节点 -> document对象
+    节点操作
+        获取节点对象
+        修改节点
+        删除节点
+        增加节点
+
+3. 获取节点
+
+涉及到获取元素节点,必须考虑代码的解析顺序.
+必须等待文档元素加载完毕之后,才能获取到节点对象.
+获取操作必须书写在body末尾
+
+    根据标签名获取节点对象,返回节点列表(类数组)
+    方法 :
+    document.getElementsByTagName('标签名'); 返回值 : 节点列表,可以通过下标访问具体节点对象
+
+        练习 :
+        创建div,文本框,按钮
+        点击按钮时,将文本框的内容,以一级标题的形式
+        显示在div中
+
+    根据元素的id属性值获取元素
+    方法 :
+    document.getElementById('id属性值');
+    返回值 : 由于id具有唯一性,该方法会返回具体的节点对象
+    根据元素的class属性值获取元素节点的数组
+    方法 :
+    document.getElementsByClassName('class属性值');
+    返回值 :
+    由于class属性值可以复用,该方法会返回所有的元素节点数组
+    根据表单控件的name属性值,获取元素节点数组
+    方法 :
+    document.getElementsByName('name属性值');
+    返回值 : 返回节点数组
+
+4.操作节点的属性
+
+    获取指定属性的值 getAttribute('attrName'); 根据传入的属性名,获取对应的属性值
+    为元素节点设置属性 setAttribute("attrName","value");
+    移除指定属性 removeAttribute("attrName");
+    标签属性就是元素节点对象的属性
+    可以使用点语法访问 获取:
+    elem.id //获取id属性值
+    elem.className //获取class属性值
+    设置:
+    elem.id="d1";
+    elem.className="c1";
+    移除:
+    elem.id=null
+
+5.操作元素样式
+
+    基于id/class选择器,为元素添加样式
+    通过操作元素id/class属性,对应选择器样式
+    setAttribute();
+    elem.id=""; elem.className="";
+    通过style标签属性,操作元素样式 语法:
+    elem.style.CSS属性名="";
+    注意:
+    CSS属性名中出现连接符-,在JS中一律改成驼峰标识
+    如:
+    h1.style.backgroundColor
+    h1.style.fontSize
+
+练习:
+
+        创建div 按钮 输入框
+        按钮点击时验证用户输入的用户名是否在6-18位之间
+        满足要求.在div中以绿色文本提示用户"用户名合法", 不满足要求以红色文本提示
+
+6.操作元素内容
+
+    属性 :innerHTML
+    设置或读取标签内容,可识别HTML标签
+    属性: innerText
+    设置或读取标签内容,不能识别标签
+    属性:value
+    获取表单控件值
+
+7. 节点分类与名称
+
+    nodeType 属性
+    查看节点类型,返回数值
+    元素节点:1
+    属性节点:2
+    文本节点:3
+    ----------
+    注释节点:8
+    文档节点:9
+    nodeName
+    查看节点名称
+    元素节点: 标签名
+    属性节点: 属性名
+    文本节点: #text
+    ----------
+    注释节点:#comment
+    文档节点:#document
+
+8.节点的层次属性
+
+    parentNode 属性
+    获取当前元素节点的父节点
+    childNodes 属性
+    获取当前元素所有的子节点
+    <h1 id='d1'>标题</h1>
+    children 属性
+    获取当前元素所有的子节点,不包含文本节点,只返回元素节点
+    返回的子元素中只包含直接子元素,不包含简介子元素
